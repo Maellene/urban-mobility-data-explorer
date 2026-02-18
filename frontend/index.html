@@ -1,1 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Mobility Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h1>NYC Urban Mobility Dashboard</h1>
+        <p>Exploring New York City Taxi Trip Patterns - January 2019</p>
+    </header>
 
+    <main>
+        <section class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Trips</h3>
+                <p id="total-trips">Loading...</p>
+            </div>
+            <div class="stat-card">
+                <h3>Average Fare</h3>
+                <p id="avg-fare">Loading...</p>
+            </div>
+            <div class="stat-card">
+                <h3>Average Distance</h3>
+                <p id="avg-distance">Loading...</p>
+            </div>
+            <div class="stat-card">
+                <h3>Average Passengers</h3>
+                <p id="avg-passengers">Loading...</p>
+            </div>
+        </section>
+
+        <section class="filters">
+            <h2>Filter Trips</h2>
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="borough-filter">Borough</label>
+                    <select id="borough-filter">
+                        <option value="">All Boroughs</option>
+                        <option value="Manhattan">Manhattan</option>
+                        <option value="Brooklyn">Brooklyn</option>
+                        <option value="Queens">Queens</option>
+                        <option value="Bronx">Bronx</option>
+                        <option value="Staten Island">Staten Island</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="ratecode-filter">Rate Code</label>
+                    <select id="ratecode-filter">
+                        <option value="">All Rate Codes</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="limit-filter">Results Limit</label>
+                    <select id="limit-filter">
+                        <option value="100">100</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                    </select>
+                </div>
+                <button id="apply-filters">Apply Filters</button>
+            </div>
+        </section>
+
+        <section class="charts-grid">
+            <div class="chart-card">
+                <h2>Trips by Hour of Day</h2>
+                <canvas id="trips-by-hour-chart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h2>Trips by Borough</h2>
+                <canvas id="trips-by-borough-chart"></canvas>
+            </div>
+            <div class="chart-card wide">
+                <h2>Top 20 Pickup Zones</h2>
+                <canvas id="trips-by-zone-chart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h2>Trips by Rate Code</h2>
+                <canvas id="trips-by-ratecode-chart"></canvas>
+            </div>
+        </section>
+
+        <section class="table-section">
+            <h2>Trip Records</h2>
+            <div class="table-wrapper">
+                <table id="trips-table">
+                    <thead>
+                        <tr>
+                            <th>Trip ID</th>
+                            <th>Pickup Time</th>
+                            <th>Dropoff Time</th>
+                            <th>Passengers</th>
+                            <th>Distance (mi)</th>
+                            <th>Fare ($)</th>
+                            <th>Pickup Zone ID</th>
+                            <th>Dropoff Zone ID</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trips-tbody">
+                        <tr><td colspan="8">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>NYC Taxi Trip Data - Urban Mobility Explorer</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
