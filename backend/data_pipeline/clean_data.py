@@ -1,4 +1,3 @@
-
 """
 Data Cleaner Module
 Handles data validation, outlier detection, and cleaning operations
@@ -10,6 +9,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import os
 
+from data_pipeline.load_data import DataLoader
 class DataCleaner:
     def __init__(self, log_dir='../data/logs'):
         self.log_dir = log_dir
@@ -316,13 +316,18 @@ class DataCleaner:
 
 if __name__ == "__main__":
     # Test the cleaner
-    from data_loader import DataLoader
-    
     loader = DataLoader()
-    trips, _, _ = loader.load_all(sample_size=10000)
-    
+    trips = loader.load_trip_data()
+    zone_lookup = loader.load_zone_lookup()
+
+    # Merge pickup zone info
+    merged = trips.merge(zone_lookup, left_on='PULocationID', right_on='LocationID', suffixes=('', '_pickup'))
+    # Merge dropoff zone info
+    merged = merged.merge(zone_lookup, left_on='DOLocationID', right_on='LocationID', suffixes=('', '_dropoff'))
+
     cleaner = DataCleaner()
-    cleaned_trips = cleaner.clean_trip_data(trips)
-    
-    print(f"\nCleaned data shape: {cleaned_trips.shape}")
+    cleaned_merged = cleaner.clean_trip_data(merged)
+
+    print(f"\nCleaned merged data shape: {cleaned_merged.shape}")
+    cleaned_merged.to_csv('cleaned_merged_trips.csv', index=False)
 

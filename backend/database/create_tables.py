@@ -2,18 +2,19 @@ import pymysql
 
 MYSQL_HOST = "localhost"
 MYSQL_USER = "root"
-MYSQL_PASSWORD = "your_password"
-MYSQL_DB = "mobility"
+MYSQL_PASSWORD = "maellene123"
+MYSQL_DB = "urban_mobility"
 
 def create_tables():
     conn = pymysql.connect(
         host=MYSQL_HOST,
         user=MYSQL_USER,
-        password= maellene123,
-        database= mobility.db,
+        password=MYSQL_PASSWORD,
+        database=MYSQL_DB,
     )
     cursor = conn.cursor()
 
+    # Create zones table 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS zones (
         zone_id INT PRIMARY KEY,
@@ -23,6 +24,15 @@ def create_tables():
     )
     """)
 
+    # Create ratecode table 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS ratecode (
+        ratecode_id INT PRIMARY KEY,
+        ratecode_desc VARCHAR(255)
+    )
+    """)
+
+    # Create trips table 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS trips (
         trip_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -33,8 +43,10 @@ def create_tables():
         fare_amount FLOAT,
         pu_location_id INT,
         do_location_id INT,
+        ratecode_id INT,
         FOREIGN KEY (pu_location_id) REFERENCES zones(zone_id),
-        FOREIGN KEY (do_location_id) REFERENCES zones(zone_id)
+        FOREIGN KEY (do_location_id) REFERENCES zones(zone_id),
+        FOREIGN KEY (ratecode_id) REFERENCES ratecode(ratecode_id)
     )
     """)
 

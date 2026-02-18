@@ -1,6 +1,6 @@
 """
 Data Loader Module
-Loads raw NYC Taxi data from CSV, Parquet, and spatial files (Shapefile or GeoJSON)
+Loads raw NYC Taxi data from CSV, Parquet, and spatial files
 """
 
 import pandas as pd
@@ -8,6 +8,8 @@ import geopandas as gpd
 import json
 import os
 from typing import Optional, Tuple
+
+print("Script started...")
 
 
 class DataLoader:
@@ -158,7 +160,22 @@ class DataLoader:
 
         print("\n✓ All data files loaded successfully!")
 
+        #merged_data = trips.merge(zones,
+         #   left_on = "PULocationID",
+          #  right_on = "LocationID",
+           # how = "left"
+        #)
+        #print(f"Integration complete: {merged_data.shape[0]} rows, {merged_data.shape[1]} columns")
+
+
+
+
         return trips, zones, geometries
+    
+   # merged_data = trips.merge(zones
+                 
+
+
 
     # ==========================================================
     # SUMMARY
@@ -182,6 +199,9 @@ class DataLoader:
         print("\nMissing Values:")
         print(self.trip_data.isnull().sum())
 
+        #print("merge data:")
+        #print(self.merged_data)
+
         print("\nBasic Statistics:")
         print(self.trip_data.describe())
 
@@ -197,10 +217,26 @@ class DataLoader:
 # TESTING
 # ==========================================================
 if __name__ == "__main__":
+    print("Inside main block...")
 
     loader = DataLoader()
 
     trips, zones, geometries = loader.load_all(sample_size=10000)
 
+
+    print("\nTop 5 Trips:")
+    print(trips.head())
+
+    print("\nTop 5 Zones:")
+    print(zones.head())
+
+    print("\nTop 5 Geometries:")
+    print(geometries.head())
+
+
+
+
     loader.get_data_summary()
+    
+    
 
