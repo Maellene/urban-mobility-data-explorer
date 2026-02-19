@@ -110,6 +110,10 @@ Once the server is running, these endpoints return real data:
 
 /api/trips-by-ratecode
 
+
+HERE IS THE LINK TO THE ARCHITECTER DIAGRAM FOR THIS PROJECT
+: docs/architecter diagarm.jpeg
+
 Running the Frontend
 1. Create a frontend/ folder (if not already created)
 
