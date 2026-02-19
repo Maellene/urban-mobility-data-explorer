@@ -2,6 +2,9 @@ const API_BASE = 'http://localhost:5000/api';
 
 let hourChart, boroughChart, zoneChart, ratecodeChart;
 
+
+let allTrips = [];
+
 async function fetchStats() {
     const res = await fetch(`${API_BASE}/stats`);
     const data = await res.json();
@@ -47,9 +50,7 @@ async function fetchTripsByHour() {
         options: {
             responsive: true,
             plugins: { legend: { display: false } },
-            scales: {
-                y: { beginAtZero: true }
-            }
+            scales: { y: { beginAtZero: true } }
         }
     });
 }
@@ -137,15 +138,29 @@ async function fetchTrips(filters = {}) {
     const res = await fetch(url);
     const data = await res.json();
 
+    allTrips = data;
+
     const tbody = document.getElementById('trips-tbody');
+    const viewMoreBtn = document.getElementById('view-more-btn');
+
     tbody.innerHTML = '';
 
-    if (data.length === 0) {
+    if (allTrips.length === 0) {
         tbody.innerHTML = '<tr><td colspan="8">No records found</td></tr>';
+        viewMoreBtn.style.display = 'none';
         return;
     }
 
-    data.forEach(trip => {
+    renderTrips(allTrips.slice(0, 10));
+
+    viewMoreBtn.style.display = allTrips.length > 10 ? 'block' : 'none';
+}
+
+function renderTrips(trips) {
+    const tbody = document.getElementById('trips-tbody');
+    tbody.innerHTML = '';
+
+    trips.forEach(trip => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${trip.trip_id}</td>
@@ -160,6 +175,11 @@ async function fetchTrips(filters = {}) {
         tbody.appendChild(row);
     });
 }
+
+document.getElementById('view-more-btn').addEventListener('click', () => {
+    renderTrips(allTrips);
+    document.getElementById('view-more-btn').style.display = 'none';
+});
 
 document.getElementById('apply-filters').addEventListener('click', () => {
     const ratecode_id = document.getElementById('ratecode-filter').value;
