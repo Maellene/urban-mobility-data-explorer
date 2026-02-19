@@ -49,7 +49,7 @@ def custom_group_by_hour(trips):
     hour_map = {}
 
     for trip in trips:
-        hour = int(trip['pickup_datetime'][11:13])
+        hour = trip['pickup_datetime'].hour
         if hour not in hour_map:
             hour_map[hour] = 0
         hour_map[hour] += 1

@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import pymysql
-from algorithm import custom_sort_by_trip_count, custom_group_by_hour
+from algorithm import custom_sort_zones_by_trips, custom_group_by_hour
 
 app = Flask(__name__)
 CORS(app)
@@ -109,7 +109,7 @@ def trips_by_zone():
     """)
     data = cursor.fetchall()
     conn.close()
-    sorted_data = custom_sort_by_trip_count(data)
+    sorted_data = custom_sort_zones_by_trips(data)
     return jsonify(sorted_data[:20])
 
 @app.route('/api/trips-by-hour', methods=['GET'])
@@ -171,7 +171,7 @@ def top_zones_ranked():
     """)
     data = cursor.fetchall()
     conn.close()
-    sorted_data = custom_sort_by_trip_count(data)
+    sorted_data = custom_sort_zones_by_trips(data)
     return jsonify(sorted_data[:20])
 
 @app.route('/api/trips-by-hour-custom', methods=['GET'])
