@@ -1,18 +1,18 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import pymysql
+from algorithm import custom_sort_by_trip_count, custom_group_by_hour
 
 app = Flask(__name__)
-CORS(app)  # Allows frontend to talk to backend
+CORS(app)
 
-# Database connection
 def get_connection():
     return pymysql.connect(
         host="localhost",
         user="root",
         password="maellene123",
         database="urban_mobility",
-        cursorclass=pymysql.cursors.DictCursor  
+        cursorclass=pymysql.cursors.DictCursor
     )
 
 @app.route('/api/health', methods=['GET'])
@@ -51,7 +51,6 @@ def get_trips():
     conn = get_connection()
     cursor = conn.cursor()
 
-    # Optional 
     limit = request.args.get('limit', 100)
     pu_location_id = request.args.get('pu_location_id')
     do_location_id = request.args.get('do_location_id')
@@ -107,12 +106,11 @@ def trips_by_zone():
         FROM trips t
         JOIN zones z ON t.pu_location_id = z.zone_id
         GROUP BY z.zone_name, z.borough
-        ORDER BY trip_count DESC
-        LIMIT 20
     """)
     data = cursor.fetchall()
     conn.close()
-    return jsonify(data)
+    sorted_data = custom_sort_by_trip_count(data)
+    return jsonify(sorted_data[:20])
 
 @app.route('/api/trips-by-hour', methods=['GET'])
 def trips_by_hour():
@@ -160,6 +158,31 @@ def trips_by_ratecode():
     data = cursor.fetchall()
     conn.close()
     return jsonify(data)
+
+@app.route('/api/top-zones-ranked', methods=['GET'])
+def top_zones_ranked():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT z.zone_name, z.borough, COUNT(*) as trip_count
+        FROM trips t
+        JOIN zones z ON t.pu_location_id = z.zone_id
+        GROUP BY z.zone_name, z.borough
+    """)
+    data = cursor.fetchall()
+    conn.close()
+    sorted_data = custom_sort_by_trip_count(data)
+    return jsonify(sorted_data[:20])
+
+@app.route('/api/trips-by-hour-custom', methods=['GET'])
+def trips_by_hour_custom():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT pickup_datetime FROM trips LIMIT 100000")
+    data = cursor.fetchall()
+    conn.close()
+    result = custom_group_by_hour(data)
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
