@@ -9,7 +9,7 @@ A full-stack urban mobility analytics dashboard built with Flask, MySQL, and van
 - [Project Report]([docs/Urban%20Mobility%20System%20Project%20Documentation.pdf](https://github.com/Maellene/urban-mobility-data-explorer/blob/main/docs/Urban%20Mobility%20System%20%20Project%20Documentation.pdf))
 - [Architecture Diagram](https://github.com/Maellene/urban-mobility-data-explorer/blob/main/docs/Urban%20Mobility%20System%20Architecture.drawio.png)
 - [Team Task Sheet](https://docs.google.com/spreadsheets/d/1y8W4NT6lLU58EVYUGtevlnCPTOuB2Ubw6QNdW0j0eJg/edit?usp=sharing)
-- [Demo Video]([#](https://youtu.be/X40WW9D0GZc)) 
+- [Demo Video](https://youtu.be/X40WW9D0GZc)) 
 
 ---
 
