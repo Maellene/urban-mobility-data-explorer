@@ -43,17 +43,53 @@ JavaScript
 Chart.js
 
 Project Structure
-urban-mobility-data-explorer/
+
+URBAN-MOBILITY-DATA-EXPLORER/
 │
 ├── backend/
-│   ├── main.py
-│   └── database scripts
+│   ├── data_pipeline/
+│   │   ├── clean_data.py
+│   │   ├── feature_engineering.py
+│   │   ├── load_data.py
+│   │   ├── rejection_log.py
+│   │   └── validate_data.py
+│   │
+│   ├── database/
+│   │   ├── create_db.py
+│   │   ├── create_tables.py
+│   │   └── insert_cleaned_data.py
+│   │
+│   ├── algorithm.py
+│   ├── cleaned_merged_trips.csv
+│   └── main.py
+│
+├── data/
+│   ├── logs/
+│   ├── processed/
+│   │
+│   └── raw/
+│       ├── taxi_zones/
+│       │   ├── taxi_zones.dbf
+│       │   ├── taxi_zones.prj
+│       │   ├── taxi_zones.sbn
+│       │   ├── taxi_zones.sbx
+│       │   ├── taxi_zones.shp
+│       │   ├── taxi_zones.shp.xml
+│       │   └── taxi_zones.shx
+│       │
+│       ├── taxi_zone_lookup.csv
+│       └── yellow_tripdata_2019-01.csv
+│
+├── docs/
+│   ├── architecter diagram.jpeg
+│   └── report.pdf
 │
 ├── frontend/
+│   ├── app.js
 │   ├── index.html
-│   ├── style.css
-│   └── app.js
+│   └── style.css
 │
+├── .gitignore
 └── README.md
 
 Running the Backend (API)
