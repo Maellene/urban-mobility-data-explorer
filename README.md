@@ -86,7 +86,7 @@ JavaScript
 
 Chart.js
 
-📂 Project Structure
+```text
 URBAN-MOBILITY-DATA-EXPLORER/
 │
 ├── backend/
@@ -110,6 +110,7 @@ URBAN-MOBILITY-DATA-EXPLORER/
 │   └── app.js
 │
 └── README.md
+```
 🚀 Running the Backend (API)
 1️⃣ Install Dependencies
 pip install flask flask-cors pymysql
