@@ -1,92 +1,69 @@
-🚕 Urban Mobility Data Explorer
+# Urban Mobility Data Explorer
 
-A full-stack urban mobility analytics dashboard built using Flask, MySQL, and vanilla JavaScript to explore 7.4 million NYC Yellow Taxi trips (January 2019).
+A full-stack urban mobility analytics dashboard built with Flask, MySQL, and vanilla JavaScript, analyzing 7.4 million NYC Yellow Taxi trips from January 2019.
 
-🔗 Quick Links
+---
 
-📄 Project Report: docs/Urban Mobility System  Project Documentation.pdf
+## Quick Links
 
-🏗 Architecture Diagram: docs/Urban Mobility System Architecture.drawio.png
+- [Project Report]([docs/Urban%20Mobility%20System%20Project%20Documentation.pdf](https://github.com/Maellene/urban-mobility-data-explorer/blob/main/docs/Urban%20Mobility%20System%20%20Project%20Documentation.pdf))
+- [Architecture Diagram](https://github.com/Maellene/urban-mobility-data-explorer/blob/main/docs/Urban%20Mobility%20System%20Architecture.drawio.png)
+- [Team Task Sheet](https://docs.google.com/spreadsheets/d/1y8W4NT6lLU58EVYUGtevlnCPTOuB2Ubw6QNdW0j0eJg/edit?usp=sharing)
+- [Demo Video](#) ← _replace with your video link_
 
-📊 Team Task Sheet:
-https://docs.google.com/spreadsheets/d/1y8W4NT6lLU58EVYUGtevlnCPTOuB2Ubw6QNdW0j0eJg/edit?usp=sharing
+---
 
-📌 Project Overview
+## Overview
 
-The Urban Mobility Data Explorer analyzes large-scale taxi trip data to uncover mobility patterns across New York City.
+The Urban Mobility Data Explorer analyzes large-scale taxi trip data to uncover mobility patterns across New York City. The system cleans and validates raw taxi datasets, loads structured data into a MySQL relational database, exposes analytics via REST APIs built with Flask, and visualizes insights through an interactive dashboard.
 
-This system:
+---
 
-Cleans and validates raw taxi datasets
+## System Architecture
 
-Loads structured data into a MySQL relational database
+The project follows a three-layer architecture:
 
-Exposes analytics via REST APIs (Flask)
-
-Visualizes insights using charts and tables
-
-This project was developed for an academic assignment and runs in development mode.
-
-🏗 System Architecture
-
-The project follows a 3-layer architecture:
-
+```
 User (Browser)
-        ↓
+      ↓
 Frontend (HTML, CSS, JS, Chart.js)
-        ↓ REST API Calls
+      ↓  REST API Calls
 Backend (Flask + Python Logic)
-        ↓ SQL Queries
+      ↓  SQL Queries
 MySQL Database (urban_mobility)
-Architecture Summary
+```
 
-Frontend Layer → Displays charts, filters, and trip tables
+- **Frontend Layer** — Displays charts, filters, and trip tables
+- **Backend Layer** — Provides API endpoints and custom algorithms
+- **Database Layer** — Stores trips, zones, and rate codes
 
-Backend Layer → Provides API endpoints and custom algorithms
+---
 
-Database Layer → Stores trips, zones, and rate codes
+## Database Design
 
-🧠 Database Design
-Core Tables
+**Core Tables**
 
-trips → Fact table (7.4M records)
+| Table      | Type      | Description                  |
+|------------|-----------|------------------------------|
+| `trips`    | Fact      | 7.4M trip records            |
+| `zones`    | Dimension | NYC taxi zone definitions    |
+| `ratecode` | Dimension | Fare type definitions        |
 
-zones → Dimension table
+The schema follows a **Star Model**: `zones` and `ratecode` both relate to `trips`, and are indirectly related to each other through it.
 
-ratecode → Dimension table
+---
 
-Relationships
+## Tech Stack
 
-zones (1) → (N) trips
+**Backend:** Python, Flask, Flask-CORS, MySQL, PyMySQL
 
-ratecode (1) → (N) trips
+**Frontend:** HTML, CSS, JavaScript, Chart.js
 
-Zones and ratecodes are indirectly related through the trips table (Star Schema model).
+---
 
-🛠 Tech Stack
-Backend
+## Project Structure
 
-Python
-
-Flask
-
-Flask-CORS
-
-MySQL
-
-PyMySQL
-
-Frontend
-
-HTML
-
-CSS
-
-JavaScript
-
-Chart.js
-
-```text
+```
 URBAN-MOBILITY-DATA-EXPLORER/
 │
 ├── backend/
@@ -101,7 +78,7 @@ URBAN-MOBILITY-DATA-EXPLORER/
 │   └── logs/
 │
 ├── docs/
-│   ├── architecter diagarm.jpeg
+│   ├── architecture_diagram.png
 │   └── report.pdf
 │
 ├── frontend/
@@ -111,182 +88,150 @@ URBAN-MOBILITY-DATA-EXPLORER/
 │
 └── README.md
 ```
-🚀 Running the Backend (API)
-1️⃣ Install Dependencies
+
+---
+
+## Getting Started
+
+### 1. Install Dependencies
+
+```bash
 pip install flask flask-cors pymysql
-2️⃣ Run the Server
+```
+
+### 2. Start the Backend
+
+```bash
 python main.py
+```
 
-You should see:
+The server will run at `http://127.0.0.1:5000`. The development server warning is expected.
 
-Running on http://127.0.0.1:5000
-
-⚠️ The development server warning is normal.
-
-✅ API Health Check
+### 3. Verify the API
 
 Open your browser and visit:
 
+```
 http://localhost:5000/api/health
+```
 
 Expected response:
 
+```json
 {
   "status": "API is running"
 }
-📡 Available API Endpoints
+```
 
-/api/stats
+### 4. Launch the Frontend
 
-/api/zones
+Ensure the backend is running on port 5000, then open `frontend/index.html` directly in your browser, or serve it via Live Server on port 5500.
 
-/api/ratecodes
+---
 
-/api/trips
+## API Endpoints
 
-/api/trips-by-hour
+| Endpoint                    | Description                          |
+|-----------------------------|--------------------------------------|
+| `/api/stats`                | Summary statistics                   |
+| `/api/zones`                | All zone records                     |
+| `/api/ratecodes`            | All rate code records                |
+| `/api/trips`                | Trip records (filterable)            |
+| `/api/trips-by-hour`        | Trip volume grouped by hour          |
+| `/api/trips-by-borough`     | Trip volume grouped by borough       |
+| `/api/trips-by-zone`        | Trip volume grouped by zone          |
+| `/api/trips-by-ratecode`    | Trip volume grouped by rate code     |
+| `/api/top-zones-ranked`     | Top 20 pickup zones                  |
+| `/api/trips-by-hour-custom` | Custom hourly trip query             |
 
-/api/trips-by-borough
+---
 
-/api/trips-by-zone
+## Dashboard Features
 
-/api/trips-by-ratecode
+**Stat Cards**
 
-/api/top-zones-ranked
+- Total Trips: 7,469,100
+- Average Fare: $12.18
+- Average Distance: 2.83 miles
+- Average Passengers: ~1.5
 
-/api/trips-by-hour-custom
+**Charts**
 
-💻 Running the Frontend
+- **Trips by Hour** — Identifies peak taxi demand times
+- **Trips by Borough** — Borough-level trip distribution
+- **Top 20 Pickup Zones** — Most active pickup locations
+- **Trips by Rate Code** — Breakdown of fare types
 
-1️⃣ Ensure backend is running on port 5000
+**Filters**
 
-2️⃣ Open:
+Filters apply to the Trip Records Table only. Available options: Rate Code, Results Limit.
 
-frontend/index.html
+Example: setting Rate Code to `2` and Limit to `100` returns 100 JFK airport trips.
 
-OR use Live Server (port 5500).
+**Trip Records Table**
 
-📊 Dashboard Features
-🔢 Stat Cards
+Displays pickup/dropoff times, passenger count, distance, fare amount, and pickup/dropoff zone IDs. Updates dynamically via API.
 
-Total Trips: 7,469,100
+---
 
-Average Fare: $12.18
+## Rate Code Reference
 
-Average Distance: 2.83 miles
+| Code | Meaning               |
+|------|-----------------------|
+| 1    | Standard city rate    |
+| 2    | JFK Airport flat rate |
+| 3    | Newark Airport        |
+| 4    | Nassau/Westchester    |
+| 5    | Negotiated fare       |
+| 6    | Group ride            |
 
-Average Passengers: ~1.5
+---
 
-📈 Visualizations
-Trips by Hour
+## Data Pipeline
 
-Identifies peak taxi demand times.
+```
+Raw CSV + Taxi Zone Shapefiles
+  → Data Cleaning
+  → Feature Engineering
+  → Validation
+  → MySQL Loading
+  → REST API
+  → Dashboard Visualization
+```
 
-Trips by Borough
+---
 
-Shows borough-level trip distribution.
+## Running Locally — Team Notes
 
-Top 20 Pickup Zones
+- Each developer must run `main.py` on their own machine
+- `localhost` is only accessible on the machine running the API
+- The backend and frontend must run simultaneously
 
-Displays the most active pickup locations.
+---
 
-Trips by Rate Code
+## Academic Deliverables
 
-Breaks down fare types.
+- Custom algorithm (`algorithm.py`)
+- Written report (`docs/report.pdf`)
+- Architecture diagram
+- README
+- Video walkthrough
+- Team task sheet
 
-🎟 Rate Code Meanings
-Code	Meaning
-1	Standard city rate
-2	JFK Airport flat rate
-3	Newark Airport
-4	Nassau/Westchester
-5	Negotiated fare
-6	Group ride
-🔍 Filters Section
+---
 
-Filters apply only to the Trip Records Table.
+## Project Status
 
-Available filters:
+| Component              | Status |
+|------------------------|--------|
+| Database connected     | Done   |
+| API returning real data| Done   |
+| 7.4M trips loaded      | Done   |
+| Interactive dashboard  | Done   |
+| Documentation          | Done   |
 
-Rate Code
+---
 
-Results Limit
+## Conclusion
 
-Example:
-
-Rate Code: 2
-Limit: 100
-
-Displays 100 JFK airport trips.
-
-📋 Trip Records Table
-
-Displays:
-
-Pickup & dropoff times
-
-Passenger count
-
-Distance
-
-Fare amount
-
-Pickup & dropoff zone IDs
-
-Updates dynamically via API calls.
-
-🔄 Data Pipeline
-
-Raw CSV + Taxi zone shapefiles
-→ Data Cleaning
-→ Feature Engineering
-→ Validation
-→ MySQL Loading
-→ REST API
-→ Dashboard Visualization
-
-👥 Collaboration Notes
-
-Each developer must run main.py locally
-
-localhost works only on the machine running the API
-
-Backend and frontend must run simultaneously
-
-📦 Final Status
-
-✔ Database connected
-✔ API returning real data
-✔ 7.4M trips loaded
-✔ Interactive dashboard working
-✔ Documentation included
-
-🎓 Academic Deliverables
-
-Custom algorithm (algorithm.py)
-
-Written report (docs/report.pdf)
-
-Architecture diagram
-
-README
-
-Video walkthrough
-
-Team task sheet
-
-📌 Conclusion
-
-This project demonstrates:
-
-Large-scale data processing
-
-Relational database modeling
-
-REST API design
-
-Frontend data visualization
-
-Full-stack system integration
-
-It showcases how backend systems, databases, and dashboards work together to analyze urban mobility at scale.
+This project demonstrates large-scale data processing, relational database modeling, REST API design, and frontend data visualization — showing how backend systems, databases, and dashboards work together to analyze urban mobility at scale.
